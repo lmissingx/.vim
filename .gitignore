@@ -6,7 +6,7 @@
 .root
 .vscode/
 __pycache__/
-tags
+
 # Prerequisites
 *.d
 
