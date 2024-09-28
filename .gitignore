@@ -1,3 +1,12 @@
+.netrwhist
+.DS_Store
+.tags
+.cscope
+.tasks
+.root
+.vscode/
+__pycache__/
+tags
 # Prerequisites
 *.d
 
@@ -30,3 +39,11 @@
 *.exe
 *.out
 *.app
+
+# Other
+*.rar
+*.zip
+*.tar.gz
+*.tar.bz2
+*.tar.xz
+*.log
