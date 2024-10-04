@@ -15,7 +15,6 @@ set encoding=utf-8  " (set encoding used inside Vim)
 scriptencoding utf-8
 
 
-" Use Vim settings, rather than Vi settings (much better!).
 " This must be first, because it changes other options as a side effect.
 " Avoid side effects when it was already reset.
 if &compatible
@@ -58,7 +57,7 @@ set display=lastline
 
 " Show a few lines of context around the cursor.  Note that this makes the
 " text scroll if you mouse-click near the start or end of the window.
-set scrolloff=5
+set scrolloff=3
 
 set laststatus=2
 
