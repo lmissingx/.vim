@@ -1,14 +1,5 @@
-let s:home = fnamemodify(resolve(expand('<sfile>:p')), ':h')
-command! -nargs=1 IncScript exec 'so '. fnameescape(s:home."/<args>")
-exec 'set rtp+='. fnameescape(s:home)
-exec 'set rtp+=~/.vim'
-
-if exists(':packadd')
-	exec 'set packpath+=' . fnameescape(s:home . '/site')
-endif
-
 if !exists('g:plugin_groups')
-    let g:plugin_groups=['general', 'autotags', 'ale', 'misc']
+    let g:plugin_groups=['general', 'autotags', 'autocomplete',  'checker', 'misc']
 endif
 
 call plug#begin('~/.vim/pack/dist/start')
@@ -32,7 +23,7 @@ endif
 
 if count(g:plugin_groups, 'autocomplete')
     if has('patch8.0.0027') && (has('python') || has('python3'))
-	Plug 'maralla/completor.vim'
+	Plug 'ycm-core/YouCompleteMe'
     elseif has('patch8.0.0027') && has('timers')
 	Plug 'prabirshrestha/asyncomplete.vim'
     elseif !has('patch8.2.1066') && has('lua')
@@ -49,7 +40,7 @@ if count(g:plugin_groups, 'snippet')
     Plug 'honza/vim-snippets'
 endif
 
-if count(g:plugin_groups, 'ale')
+if count(g:plugin_groups, 'checker')
     Plug 'dense-analysis/ale'
 endif
 

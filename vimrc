@@ -1,14 +1,3 @@
-" The default vimrc file.
-"
-" Maintainer:	The Vim Project <https://github.com/vim/vim>
-" Last change:	2023 Aug 10
-" Former Maintainer:	Bram Moolenaar <Bram@vim.org>
-"
-" This is loaded if no vimrc file was found.
-" Except when Vim is run with "-u NONE" or "-C".
-" Individual settings can be reverted with ":set option&".
-" Other commands can be reverted as mentioned below.
-
 " set default encoding to utf-8
 " Let Vim use utf-8 internally, because many scripts require this
 set encoding=utf-8  " (set encoding used inside Vim)
@@ -27,93 +16,19 @@ silent! while 0
   set nocompatible
 silent! endwhile
 
-" Add optional packages.
-"
-" The matchit plugin makes the % command work better, but it is not backwards
-" compatible.
-" The ! means the package won't be loaded right away but when plugins are
-" loaded during initialization.
+let s:cur_dir = fnamemodify(resolve(expand('<sfile>:p')), ':h')
+let g:root_dir = escape(fnamemodify(resolve(fnamemodify(expand('<sfile>'), 
+            \ ':p:h:gs?\\?'.((has('win16') || has('win32')
+            \ || has('win64'))?'\':'/') . '?')), ':p:gs?[\\/]?/?'), ' ')
+lockvar g:root_dir
+exec 'set rtp+='. fnameescape(g:root_dir. '/.vim')
+command! -nargs=1 IncScript exec 'so'. fnameescape(s:cur_dir."/<args>")
+
+IncScript basic.vim
+"Incscript plugin.vim
+" Get the plugin
 if filereadable(expand("~/.vim/pack.vim"))
     source ~/.vim/pack.vim
-endif
-
-" Allow backspacing over everything in insert mode.
-set backspace=indent,eol,start
-
-set history=200		" keep 200 lines of command line history
-"set ruler		" show the cursor position all the time
-set showcmd		" display incomplete commands
-set wildmenu		" display completion matches in a status line
-set nowrap
-set helpheight=10
-set textwidth=120
-set colorcolumn=+1,+2
-
-set ttimeout		" time out for key codes
-set ttimeoutlen=100	" wait up to 100ms after Esc for special key
-
-" Show @@@ in the last line if it is truncated.
-set display=lastline
-
-" Show a few lines of context around the cursor.  Note that this makes the
-" text scroll if you mouse-click near the start or end of the window.
-set scrolloff=3
-
-set laststatus=2
-
-set errorformat+=[%f:%l]\ ->\ %m,[%f:%l]:%m
-
-" in Vim9 script
-let g:mapleader="," 
-
-if has("vms")
-  set nobackup		" do not keep a backup file, use versions instead
-else
-  set nobackup		" keep a backup file (restore to previous version)
-  set nowb
-  set noswf
-  if has('persistent_undo')
-    set noundofile	" keep an undo file (undo changes after closing)
-  endif
-endif
-
-set ignorecase
-set smartcase
-" Do incremental searching when it's possible to timeout.
-if has('reltime')
-  set incsearch
-endif
-
-set expandtab
-set shiftwidth=4
-set tabstop=4
-set softtabstop=4
-
-" Do not recognize octal numbers for Ctrl-A and Ctrl-X, most users find it
-" confusing.
-set nrformats-=octal
-
-" Enable file type detection.
-" Use the default filetype settings, so that mail gets 'tw' set to 72,
-" 'cindent' is on in C files, etc.
-" Also load indent files, to automatically do language-dependent indenting.
-" Revert with :filetype off.
-filetype plugin indent on
-
-" Switch syntax highlighting on when the terminal has colors or when using the
-" GUI (which always has colors).
-if &t_Co > 2 || has("gui_running")
-    set t_Co=256
-    " Revert with :syntax off
-    syntax on
-    colorscheme desert
-
-    " Switch on highlighting the last used search pattern.
-    set hlsearch
-
-    " I like highlighting strings inside C comments.
-    " Revert with ":unlet c_comment_strings".
-    let c_comment_strings=1
 endif
 
 " For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries.
@@ -197,6 +112,16 @@ if has('langmap') && exists('+langremap')
   " mapping.  If set (default), this may break plugins (but it's backward
   " compatible).
   set nolangremap
+endif
+
+" Add optional packages.
+"
+" The matchit plugin makes the % command work better, but it is not backwards
+" compatible.
+" The ! means the package won't be loaded right away but when plugins are
+" loaded during initialization.
+if has('syntax') && has('eval')
+    packadd! matchit
 endif
 
 " Plugins {
