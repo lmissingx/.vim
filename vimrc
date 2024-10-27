@@ -25,7 +25,7 @@ exec 'set rtp+='. fnameescape(g:root_dir. '/.vim')
 command! -nargs=1 IncScript exec 'so'. fnameescape(s:cur_dir."/<args>")
 
 IncScript basic.vim
-"Incscript plugin.vim
+IncScript plugin.vim
 " Get the plugin
 if filereadable(expand("~/.vim/pack.vim"))
     source ~/.vim/pack.vim
